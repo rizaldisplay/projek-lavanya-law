@@ -36,6 +36,7 @@ export default function RootLayout({
           size="lg" // sm | md | lg
           tooltip="Chat sekarang"
         />
+        
       </body>
     </html>
   );
