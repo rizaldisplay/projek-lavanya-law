@@ -1,10 +1,9 @@
 import { FC } from "react";
 import ShinyText from "./ShinyText";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { MenuPageProps } from "@/app/types";
 import { FaArrowLeft } from "react-icons/fa";
-
-import * as variants from '@/lib/motionVariants'
+import * as variants from "@/lib/motionVariants";
 
 export const MenuPage: FC<MenuPageProps> = ({
   onNavigate,
@@ -13,33 +12,76 @@ export const MenuPage: FC<MenuPageProps> = ({
 }) => (
   <div
     id="halaman-menu"
-    className={`halaman flex flex-col items-center justify-center text-center ${
-      isActive ? "translate-x-0 is-active" : "translate-x-full"
-    }`}
+    className={[
+      "halaman relative w-full min-h-dvh flex flex-col items-center justify-center",
+      "px-4 sm:px-6 lg:px-8 py-14 sm:py-16",
+      "text-center transition-transform duration-500 will-change-transform",
+      isActive ? "translate-x-0 is-active" : "translate-x-full",
+    ].join(" ")}
   >
-    <div className="max-w-6xl mx-auto w-full">
-      <motion.div variants={variants.fadeInUp}>
-        <button
-          onClick={() => onGoBack("utama")}
-          className="absolute top-8 left-8 inline-flex h-12 items-center justify-center rounded-full border border-black/10 px-5 text-sm font-medium transition-colors hover:border-transparent hover:bg-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/50 dark:border-white/20 dark:hover:bg-neutral-900 dark:focus-visible:ring-white/50 cursor-pointer px-4 py-2 rounded"
-        >
-          <FaArrowLeft className="mr-2 transition-transform duration-200 group-hover:translate-x-1" />
-          <ShinyText text="Kembali" speed={3} className="custom-class" />
-        </button>
-      </motion.div>
+    {/* Tombol kembali: sticky di mobile, absolute di md+ */}
+    <motion.div
+      initial="hidden"
+      animate="show"
+      variants={variants.fadeInUp}
+      className="w-full"
+    >
+      <button
+        onClick={() => onGoBack("utama")}
+        aria-label="Kembali ke halaman utama"
+        className={[
+          "group cursor-pointer inline-flex items-center gap-2",
+          // posisi responsif
+          "fixed top-3 left-3 md:absolute md:top-8 md:left-8 z-20",
+          // tampilan & interaksi
+          "rounded-full border border-black/10 dark:border-white/20",
+          "bg-white/80 dark:bg-black/30 backdrop-blur px-4 py-2",
+          "text-sm font-medium shadow-sm",
+          "transition-all hover:border-transparent hover:bg-neutral-100 dark:hover:bg-neutral-900",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/50 dark:focus-visible:ring-white/50 focus-visible:ring-offset-2",
+        ].join(" ")}
+      >
+        <FaArrowLeft className="transition-transform duration-200 group-hover:-translate-x-0.5" />
+        <ShinyText text="Kembali" speed={3} className="custom-class" />
+      </button>
+    </motion.div>
 
-      <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 animated-child animation-delay-0">
+    <div className="mx-auto w-full max-w-6xl">
+      <h2 className="text-balance leading-tight tracking-tight text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12">
         Area Praktik Kami
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-        <div
+
+      {/* Grid responsif: 1 → 2 → 3 kolom, auto-tinggi kartu */}
+      <div
+        className={[
+          "grid gap-6 sm:gap-8",
+          "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+          // alternatif auto-fit minmax (butuh Tailwind JIT aktif):
+          // "grid-cols-[repeat(auto-fit,minmax(220px,1fr))]"
+        ].join(" ")}
+      >
+        {/* Card 1 */}
+        <motion.div
+          variants={variants.fadeInUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
           onClick={() => onNavigate("penanganan")}
-          className="card p-6 cursor-pointer animated-child animation-delay-200"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => (e.key === "Enter" ? onNavigate("penanganan") : null)}
+          className={[
+            "card p-5 sm:p-6 cursor-pointer text-left",
+            "rounded-2xl border border-white/10/0 dark:border-white/10/0",
+            "bg-white/5 dark:bg-neutral-900/40 hover:bg-white/10 dark:hover:bg-neutral-900/60",
+            "transition-colors duration-200",
+            "h-full flex flex-col",
+          ].join(" ")}
         >
           <div className="mb-4" style={{ color: "var(--accent)" }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10"
+              className="h-9 w-9 sm:h-10 sm:w-10"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -53,21 +95,36 @@ export const MenuPage: FC<MenuPageProps> = ({
               <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold mb-2 text-slate-100">
+          <h3 className="text-xl sm:text-2xl font-bold mb-1.5 sm:mb-2 text-slate-100">
             Penanganan Hukum
           </h3>
-          <p style={{ color: "var(--muted-foreground)" }}>
+          <p className="text-sm sm:text-base" style={{ color: "var(--muted-foreground)" }}>
             Pendampingan komprehensif untuk perkara perdata dan pidana.
           </p>
-        </div>
-        <div
+        </motion.div>
+
+        {/* Card 2 */}
+        <motion.div
+          variants={variants.fadeInUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
           onClick={() => onNavigate("permohonan")}
-          className="card p-6 cursor-pointer animated-child animation-delay-400"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => (e.key === "Enter" ? onNavigate("permohonan") : null)}
+          className={[
+            "card p-5 sm:p-6 cursor-pointer text-left",
+            "rounded-2xl border border-white/10/0 dark:border-white/10/0",
+            "bg-white/5 dark:bg-neutral-900/40 hover:bg-white/10 dark:hover:bg-neutral-900/60",
+            "transition-colors duration-200",
+            "h-full flex flex-col",
+          ].join(" ")}
         >
           <div className="mb-4" style={{ color: "var(--accent)" }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10"
+              className="h-9 w-9 sm:h-10 sm:w-10"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -80,19 +137,36 @@ export const MenuPage: FC<MenuPageProps> = ({
               />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold mb-2 text-slate-100">Permohonan</h3>
-          <p style={{ color: "var(--muted-foreground)" }}>
+          <h3 className="text-xl sm:text-2xl font-bold mb-1.5 sm:mb-2 text-slate-100">
+            Permohonan
+          </h3>
+          <p className="text-sm sm:text-base" style={{ color: "var(--muted-foreground)" }}>
             Pengurusan berbagai permohonan legalitas personal dan keluarga.
           </p>
-        </div>
-        <div
+        </motion.div>
+
+        {/* Card 3 */}
+        <motion.div
+          variants={variants.fadeInUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-10% 0px -10% 0px" }}
           onClick={() => onNavigate("konsultasi")}
-          className="card p-6 cursor-pointer animated-child animation-delay-600"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => (e.key === "Enter" ? onNavigate("konsultasi") : null)}
+          className={[
+            "card p-5 sm:p-6 cursor-pointer text-left",
+            "rounded-2xl border border-white/10/0 dark:border-white/10/0",
+            "bg-white/5 dark:bg-neutral-900/40 hover:bg-white/10 dark:hover:bg-neutral-900/60",
+            "transition-colors duration-200",
+            "h-full flex flex-col",
+          ].join(" ")}
         >
           <div className="mb-4" style={{ color: "var(--accent)" }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10"
+              className="h-9 w-9 sm:h-10 sm:w-10"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -101,17 +175,17 @@ export const MenuPage: FC<MenuPageProps> = ({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V7a2 2 0 012-2h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H17z"
+                d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V7a2 2 0 01-2-2h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293H17z"
               />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold mb-2 text-slate-100">
+          <h3 className="text-xl sm:text-2xl font-bold mb-1.5 sm:mb-2 text-slate-100">
             Konsultasi Hukum
           </h3>
-          <p style={{ color: "var(--muted-foreground)" }}>
+          <p className="text-sm sm:text-base" style={{ color: "var(--muted-foreground)" }}>
             Sesi konsultasi mendalam untuk berbagai masalah hukum.
           </p>
-        </div>
+        </motion.div>
       </div>
     </div>
   </div>

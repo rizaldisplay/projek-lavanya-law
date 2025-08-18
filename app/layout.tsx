@@ -29,7 +29,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <WaButton />
+        <WaButton
+          phone="6281234567890"
+          message="Halo, saya ingin berkonsultasi hukum dengan Lavanya Law Office."
+          position="br" // br | bl | tr | tl
+          size="lg" // sm | md | lg
+          tooltip="Chat sekarang"
+        />
       </body>
     </html>
   );
