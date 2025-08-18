@@ -1,24 +1,14 @@
 "use client";
-import Home from "@/components/Home";
-import Services from "@/components/Services";
-import { FC, useState } from "react";
 
-// Mendefinisikan nama-nama halaman yang valid untuk type safety
-type PageName = 'utama' | 'menu' | 'penanganan' | 'permohonan' | 'konsultasi';
-// Tipe dasar untuk props setiap komponen halaman
-interface PageProps {
-    isActive: boolean;
-}
+import { useState } from 'react';
+import { PageName } from './types'; // Adjust the import path as necessary
 
-// Tipe props untuk halaman yang memiliki fungsi navigasi
-interface NavigatablePageProps extends PageProps {
-    onNavigate: (page: PageName) => void;
-}
-
-// Tipe props untuk halaman yang memiliki fungsi kembali
-interface GoBackPageProps extends PageProps {
-    onGoBack: (page: PageName) => void;
-}
+// Impor semua komponen halaman
+import { HomePage } from '@/components/HomePage';
+import { MenuPage } from '@/components/MenuPage';
+import { PenangananPage } from '@/components/PenangananPage';
+import { PermohonanPage } from '@/components/PermohonanPage';
+import { KonsultasiPage } from '@/components/KonsultasiPage';
 
 export default function Page() {
   const [activePage, setActivePage] = useState<PageName>("utama");
@@ -27,11 +17,14 @@ export default function Page() {
   const handleGoBack = (page: PageName) => setActivePage(page);
 
   return (
-    <div>
+    <>
       <main className="relative h-screen w-full overflow-hidden">
-        <Home/>
-        {/* <Services/> */}
+        <HomePage onNavigate={handleNavigate} isActive={activePage === 'utama'} />
+        <MenuPage onNavigate={handleNavigate} onGoBack={handleGoBack} isActive={activePage === 'menu'} />
+        <PenangananPage onGoBack={handleGoBack} isActive={activePage === 'penanganan'} />
+        <PermohonanPage onGoBack={handleGoBack} isActive={activePage === 'permohonan'} />
+        <KonsultasiPage onGoBack={handleGoBack} isActive={activePage === 'konsultasi'} />
       </main>
-    </div>
+    </>
   );
 }
