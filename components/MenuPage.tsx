@@ -1,3 +1,4 @@
+'use client'
 import { FC } from "react";
 import ShinyText from "./ShinyText";
 import { motion } from "framer-motion";
