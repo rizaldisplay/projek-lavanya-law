@@ -24,7 +24,6 @@ export const HomePage: React.FC<NavigatablePageProps> = ({
           sizes="(min-width: 640px) 460px, 280px"
           className="h-auto w-[280px] sm:w-[460px]"
         />
-
         <div className="sm:w-auto">
           <button
             onClick={() => onNavigate("menu")}

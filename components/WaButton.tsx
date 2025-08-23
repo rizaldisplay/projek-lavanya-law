@@ -24,8 +24,8 @@ const posClass: Record<NonNullable<WaButtonProps["position"]>, string> = {
 };
 
 const sizeClass: Record<NonNullable<WaButtonProps["size"]>, string> = {
-  sm: "w-12 h-12",
-  md: "w-14 h-14",
+  sm: "w-8 h-8",
+  md: "w-10 h-10",
   lg: "w-16 h-16",
 };
 

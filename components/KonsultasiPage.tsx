@@ -5,6 +5,10 @@ import { FaArrowLeft } from "react-icons/fa";
 import { GoBackPageProps } from "@/app/types";
 import * as variants from "@/lib/motionVariants";
 
+import Image from "next/image";
+import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
+import { TbArrowLeft, TbShieldCheck, TbClockHour4 } from "react-icons/tb";
+
 export const KonsultasiPage: FC<GoBackPageProps> = ({ onGoBack, isActive }) => (
   <div
     id="halaman-konsultasi"
@@ -16,27 +20,44 @@ export const KonsultasiPage: FC<GoBackPageProps> = ({ onGoBack, isActive }) => (
     ].join(" ")}
   >
     {/* Tombol Kembali: fixed di mobile, absolute di md+ */}
-    <motion.div
+       <motion.div
       initial="hidden"
       animate="show"
       variants={variants.fadeInUp}
       className="w-full"
     >
-      <button
-        onClick={() => onGoBack("menu")}
-        aria-label="Kembali ke menu"
-        className={[
-          "group inline-flex items-center gap-2 cursor-pointer z-20",
-          "fixed top-3 left-3 md:absolute md:top-8 md:left-8",
-          "rounded-full border border-black/10 dark:border-white/20",
-          "bg-white/80 dark:bg-black/30 backdrop-blur px-4 py-2 text-sm font-medium shadow-sm",
-          "transition-all hover:border-transparent hover:bg-neutral-100 dark:hover:bg-neutral-900",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/50 dark:focus-visible:ring-white/50 focus-visible:ring-offset-2",
-        ].join(" ")}
-      >
-        <FaArrowLeft className="transition-transform duration-200 group-hover:-translate-x-0.5" />
-        <ShinyText text="Kembali" speed={3} className="custom-class" />
-      </button>
+      {/* header bar menempel di sisi kiri/kanan */}
+      <div className="absolute inset-x-3 top-3 md:inset-x-8 md:top-8 z-20">
+        <div className="flex items-center justify-between">
+          {/* LEFT: tombol kembali */}
+          <button
+            onClick={() => onGoBack("menu")}
+            aria-label="Kembali ke menu"
+            className={[
+              "group inline-flex items-center gap-2",
+              "rounded-full border border-black/10 dark:border-white/20",
+              "bg-white/80 dark:bg-black/30 backdrop-blur px-4 py-2",
+              "text-sm font-medium shadow-sm",
+              "transition hover:border-transparent hover:bg-neutral-100 dark:hover:bg-neutral-900",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/50 dark:focus-visible:ring-white/50 focus-visible:ring-offset-2",
+            ].join(" ")}
+          >
+            <FaArrowLeft className="transition-transform duration-200 group-hover:-translate-x-0.5" />
+            <ShinyText text="Kembali" speed={3} className="custom-class" />
+          </button>
+
+          {/* RIGHT: logo kecil & responsif */}
+          <Image
+            src="/assets/pillar.webp"
+            alt="Pilar brand"
+            width={192}
+            height={40}
+            priority
+            sizes="(max-width:640px) 7rem, (max-width:1024px) 9rem, 12rem"
+            className="h-auto w-24 sm:w-36 md:w-48"
+          />
+        </div>
+      </div>
     </motion.div>
 
     <div className="max-w-6xl mx-auto w-full">
@@ -58,7 +79,8 @@ export const KonsultasiPage: FC<GoBackPageProps> = ({ onGoBack, isActive }) => (
         className="text-pretty text-base sm:text-lg md:text-xl mb-8 sm:mb-10"
         style={{ color: "var(--muted-foreground)" }}
       >
-        Kami siap membantu Anda memahami perkara Perdata, Pidana, TUN, dan Niaga.
+        Kami membantu Anda memahami perkara Perdata, Pidana, TUN, dan
+        Niaga—dengan bahasa yang mudah dan solusi yang realistis.
       </motion.p>
 
       <motion.div
@@ -69,21 +91,19 @@ export const KonsultasiPage: FC<GoBackPageProps> = ({ onGoBack, isActive }) => (
         className={[
           "card mx-auto w-full max-w-2xl",
           "rounded-2xl p-5 sm:p-6 md:p-8",
-          "bg-white/5 dark:bg-neutral-900/40 hover:bg-white/10 dark:hover:bg-neutral-900/60",
+          // "bg-white/5 dark:bg-neutral-900/40 hover:bg-white/10 dark:hover:bg-neutral-900/60",
           "transition-colors duration-200 text-left",
         ].join(" ")}
       >
-        {/* Badge GRATIS */}
-        <span
-          className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold tracking-wide mb-3"
-          style={{
-            color: "var(--accent)",
-            background:
-              "color-mix(in oklab, var(--accent) 12%, transparent)",
-          }}
-        >
-          GRATIS
-        </span>
+        {/* badge + title */}
+        <div className="mb-5 flex items-center gap-3">
+          <span className="rounded-full bg-yellow-400/15 px-3 py-1 text-xs font-semibold tracking-wide text-yellow-300 ring-1 ring-yellow-300/30">
+            GRATIS
+          </span>
+          <span className="text-xs text-white/60">
+            Konsultasi awal 15 menit
+          </span>
+        </div>
 
         <h3 className="text-2xl sm:text-3xl font-bold mt-1 mb-4 sm:mb-6 text-slate-100">
           Konsultasi Awal via WhatsApp
@@ -105,6 +125,22 @@ export const KonsultasiPage: FC<GoBackPageProps> = ({ onGoBack, isActive }) => (
           </li>
         </ul>
 
+        {/* trust & highlights */}
+                <div className="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <div className="flex items-center gap-2 text-sm text-white/80">
+                    <TbShieldCheck className="text-xl text-emerald-400" />
+                    Privasi & kerahasiaan terjamin
+                  </div>
+                  <div className="mt-3 flex items-center gap-2 text-sm text-white/80">
+                    <TbClockHour4 className="text-xl text-sky-400" />
+                    Respon cepat: <span className="font-medium">09.00–20.00 WIB</span>
+                  </div>
+                  <div className="mt-3 flex items-center gap-2 text-sm text-white/80">
+                    <HiOutlineChatBubbleLeftRight className="text-xl text-indigo-300" />
+                    Format: chat/voice call sesuai kebutuhan
+                  </div>
+                </div>
+
         <a
           href="https://wa.me/6281234567890?text=Halo,%20saya%20ingin%20berkonsultasi%20hukum%20dengan%20Lavanya%20Law%20Office."
           target="_blank"
@@ -125,3 +161,4 @@ export const KonsultasiPage: FC<GoBackPageProps> = ({ onGoBack, isActive }) => (
     </div>
   </div>
 );
+
