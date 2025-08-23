@@ -75,9 +75,9 @@ export const PenangananPage: FC<GoBackPageProps> = ({ onGoBack, isActive }) => (
     </motion.div>
 
     <div className="max-w-6xl mx-auto w-full">
-      <h2 className="text-balance leading-tight tracking-tight text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-30">
+      <h1 className="text-balance leading-tight tracking-tight text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-30">
         Penanganan Hukum
-      </h2>
+      </h1>
 
       {/* Grid responsif 1 → 2 kolom */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 text-left">
